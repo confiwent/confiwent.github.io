@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        碧海掣鲸
+        BAS-360, Exploring Spatial and Temporal Adaptability in 360-degree Video over HTTP/2｜碧海掣鲸
         
     </title>
 
-    <link rel="canonical" href="http://confiwent.com/archives/2018/04/">
+    <link rel="canonical" href="http://confiwent.com/rn001/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 <!-- hack iOS CSS :active style -->
 <body ontouchstart="" class="animated fadeIn">
 <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "false" data-istags="false
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
 " data-ishome = "false" >
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -132,182 +132,164 @@
 
 <!-- Main Content -->
 
+<!--only post-->
 
-<!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
-                <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="https://pt.sjtu.edu.cn/picbucket/142834_153348164697.jpg"/>
-                        <h5><a href="/about/">Noven Kan/杆</a></h5>
-                        <p>碧海掣鲸</p>
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>BAS-360, Exploring Spatial and Temporal Adaptability in 360-degree Video over HTTP/2</h1>
+                    
+                    <span class="meta">
+                         作者 Noven Kan/杆
+                        <span>
+                          日期 2018-08-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#研究笔记"
+                           title="研究笔记">研究笔记</a>
+                        
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
-<!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+    <div class="post-title-haojen">
+        <span>
+            BAS-360, Exploring Spatial and Temporal Adaptability in 360-degree Video over HTTP/2
+        </span>
+    </div>
+</header>
 
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>文章来源：<br>M.Xiao, C.Zhou, V.Swaminathan and etc. “BAS-360:Exploring Spatial and Temporal Adaptability in 360-degree Video over HTTP/2”, in Proceedings of IEEE International Conference on Computer Communications, 2018.</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>这篇文章主要提出了一个360度视频自适应传输的系统架构。为应对全景视频所需的传输带宽越来越大以及目前的视点预测技术在长时预测准确率非常小的状况，作者在HTTP2.0协议可以终止正在传输的错误包并重传正确包的特性下，设计了一套在时间和空间维度上优化视频传输码率，最小化带宽浪费的基于360度视频切片的自适应流技术。</p>
+<p>360度视频目前都是采用空间切片技术，即将每一帧视频都在空间上切成网格状的切片，分别对每个切边分配合适的比特率编码进行传输，以减少带宽消耗。</p>
+<p>空间维度的优化是指：根据用户视点预测得出的用户短时间内可能观看的视点，将范围内的切片分配较高的比特率，而用户可能看不到的切片分配低比特率或者不传输。在某一时刻，哪些切片传高比特率版本，哪些切片传最低比特率版本或者不传，这就是空间优化。</p>
+<p>时间维度的优化是指：对上一段中提到了每一个切片，需要根据预测的实时带宽状况来选择合适的比特率，比特率版本可以有很多个，具体选多大的比特率还要看传输时刻的网络带宽状况，同时也需要结合过去的一段时间里该切片的比特率，使得在一个时间段内浪费的带宽最小，用户观看的体验满意度最高。</p>
+<h2 id="贡献"><a href="#贡献" class="headerlink" title="贡献"></a>贡献</h2><p>结合已发表的文章和技术来，这篇文章的贡献主要有以下两点：</p>
+<p>1、<strong>最主要的贡献：macro-streaming units</strong></p>
+<p>作者一改以往在切片（tile）层面优化的方式，结合Human Visual System将用户视野中的所有切片按照观看概率和权重分配相应的比特率组成一个macro-streaming units，这样的话，就可以根据视点的不同选择对应视点的macro-streaming units，优化变量从tile层面变成了macro-streaming units层面。这个想法看起来似乎不错，但是可惜的是从实验结果来看效果并不理想，而且也没有跟使用tile层面优化的方法进行对比，无法知道比tile层面优化的方法好多少；</p>
+<p><img src="https://pt.sjtu.edu.cn/picbucket/142834_153355925015.png" alt="1"></p>
+<p>2、<strong>得出了使用该方案前后的比特率自适应匹配算法的复杂度</strong></p>
+<p>3、<strong>考虑了切片后由于帧间编码和帧内编码之间的依赖关系会给每个切片分开传输在合并所带来的一些影响并给出了解决方案。</strong></p>
+<h2 id="系统框图"><a href="#系统框图" class="headerlink" title="系统框图"></a>系统框图</h2><p><img src="https://pt.sjtu.edu.cn/picbucket/142834_153355931577.png" alt="2"></p>
 
+                <hr>
+                
 
-<div class="post-preview  "
-     style="background-image: url('https://pt.sjtu.edu.cn/picbucket/142834_152103620564.jpg')">
-    <a href="/rl02/">
-        <h2 class="post-title">
-            强化学习笔记（2）-马尔科夫决策过程和动态规划
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-04-05
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/ly01/" data-toggle="tooltip" data-placement="top"
+                           title="一个人要像一只队伍">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/xzsjbh/" data-toggle="tooltip" data-placement="top"
+                           title="写在世界杯后">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
                 
 
 
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC8zODEyOC8xNDY1OA==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
 
+                            if (typeof LivereTower === 'function') { return; }
 
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
 
-
-马尔科夫决策过程
-在强化学习中，环境的是由马尔科夫决策过程表述的，当前的状态(state)可以完整地刻画决策过程。马尔科夫过程是一个无记忆地随机过程，在强化学习中表现为一串具有马尔科夫性质的随机状态序列S1,S2,⋯S_1, S_2, \cdotsS1​,S2​,⋯David Si..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview  "
-     style="background-image: url('https://pt.sjtu.edu.cn/picbucket/142834_152284935375.jpg')">
-    <a href="/soccer02/">
-        <h2 class="post-title">
-            拜仁慕尼黑VS塞维利亚 欧冠四分之一决赛首回合（2017-2018赛季）
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2018-04-04
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                凌晨两点四十五开场的足球赛让人很难熬，这个时候往往入睡不久就得起来看球。但是今天的这场比赛，让我刚看了几分钟就睡意全无，赛前当作大礼包看的塞维利亚，竟然在比赛开始不久就把拜仁的中后场逼抢得失误连连，节奏全无，让人心惊胆颤。
-
-阿拉巴赛前意外受伤，右后卫位置上是伤愈不久的贝尔纳特。他今天的表现可以..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
-</ul>
-
-
-        </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
-
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="https://pt.sjtu.edu.cn/picbucket/142834_153348164697.jpg"/>
-                    
-                    <h5><a href="/about/">Noven Kan/杆</a></h5>
-                    
-                    <p>碧海掣鲸</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
-
-                        
-
-                        
-
-                        
-                        <li>
-                            <a target="_blank" href="https://github.com/confiwent">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        
-
-                        
-                    </ul>
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
                 </div>
-            </section>
+                <!-- City版安装代码已完成 -->
+                
 
-            <!-- Featured Tags  标签 -->
-            
-            <section>
-                <div class="tags">
-                    
-                    
-                    <a href="/tags/#读书笔记" title="读书笔记"
-                       rel="4">读书笔记</a>
-                    
-                    
-                    
-                    
-                    
-                    <a href="/tags/#随笔" title="随笔"
-                       rel="3">随笔</a>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#摘要"><span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#贡献"><span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统框图"><span class="toc-text">系统框图</span></a></li></ol>
                 </div>
-            </section>
-            
-
-            
-
+            </div>
         </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#研究笔记"
+                           title="研究笔记">研究笔记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
     </div>
-</div>
+</article>
+
+
+
+
+
+
 
 <!-- Footer -->
 <!-- Footer -->
