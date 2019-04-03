@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        实践踩坑实录-1｜碧海掣鲸
+        服务器使用Xrdp远程桌面连接配置教程｜碧海掣鲸
         
     </title>
 
-    <link rel="canonical" href="http://blog.nuowen.pro/sjcksl/">
+    <link rel="canonical" href="http://blog.nuowen.pro/fwqpzjc/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -147,7 +147,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>实践踩坑实录-1</h1>
+                    <h1>服务器使用Xrdp远程桌面连接配置教程</h1>
                     
                     <span class="meta">
                          作者 Nuowen Kan
@@ -157,11 +157,8 @@
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#Reinforcement Learning"
-                           title="Reinforcement Learning">Reinforcement Learning</a>
-                        
-                        <a class="tag" href="/tags/#踩坑系列"
-                           title="踩坑系列">踩坑系列</a>
+                        <a class="tag" href="/tags/#踩坑实录"
+                           title="踩坑实录">踩坑实录</a>
                         
                     </div>
                 </div>
@@ -170,7 +167,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            实践踩坑实录-1
+            服务器使用Xrdp远程桌面连接配置教程
         </span>
     </div>
 </header>
@@ -181,37 +178,18 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>使用深度学习，令人烦闷的一点在于深度学习的使用平台，Caffe, Tensorflow, Pytorch, and so on. 版本五花八门，功能体验争奇斗艳。每一个初学者入门的时候还没体验到神经网络的神奇，就要首先面临一道困惑的双选题：Tensorflow 还是 Pytorch ？网上一搜，这两派的信众各有一大堆，优劣势给你列的明明白白的，但对于初学者来说，这些优劣势带来的影响哪能评判的了。最优的办法是，你熟悉的圈子用什么，那你就用什么，这样在遇到因为软件配置带来的麻烦时，也能少踩一些坑。</p>
-<p>在我入门的时候，实验室的师兄师姐们用的是 Caffe 和 tensorflow，所以我直接 Tensorflow 入坑（为什么不用 Caffe？因为我入门的时候已经是2018年了。</p>
-<h2 id="深度学习平台的配置"><a href="#深度学习平台的配置" class="headerlink" title="深度学习平台的配置"></a>深度学习平台的配置</h2><h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>首选当然是 Linux 系统啊，因为实验室给我配了台工作站（24核CPU，无显卡，显卡对于深度强化学习也不是什么硬性需求），所以我就装了 Unbuntu-server 16.04，加上 Xrdp, Xfce4 远程桌面配置。具体操作参考这篇。</p>
-<h3 id="软件配置"><a href="#软件配置" class="headerlink" title="软件配置"></a>软件配置</h3><p>建议使用 Anaconda 平台进行包管理，也能创建虚拟环境，方便python版本的切换。另外，在虚拟环境中瞎折腾也没事，不然直接在Ubuntu根目录下操作，一不小心就会让你不得不重装系统。</p>
-<p>具体教程可以参见</p>
-<ul>
-<li><a href="https://blog.csdn.net/icomma/article/details/78491995" target="_blank" rel="noopener">ubuntu下使用Anaconda应用：创建虚拟环境实现python不同版本切换、科学计算工具包安装</a></li>
-</ul>
-<p>安装tensorflow一行命令就可以了<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">conda install -n $you virtual env name, e.g., py36$ tensorflow=<span class="number">1.3</span><span class="number">.0</span></span><br></pre></td></tr></table></figure></p>
-<p>注意以上命令安装的是tensorflow的CPU版本，需要安装GPU版本的话，把tensorflow换成tensorflow-gpu 就可以了。</p>
-<p>另外还需要注意的是，虽说tensorflow向下兼容，但是如果你是用旧版本的函数写的代码，然后用新版本来运行，会出现非常多的问题，比如，速度奇慢，跑到中途突然停了，也不报错等等。所以需要根据你的代码内容来选择合适的版本，<em>千万别以为版本越新越好！</em></p>
-<h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>无脑推荐 VScode，谁用谁知道。不过在使用Xrdp远程连接ubuntu虚拟桌面的时候，需要对vscode进行一些配置，不然不能在远程桌面窗口打开图形界面。</p>
-<p>操作如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># make a copy of the relevant library</span></span><br><span class="line">mkdir ~/lib</span><br><span class="line">cp /usr/lib/x86_64-linux-gnu/libxcb.so<span class="number">.1</span> ~/lib</span><br><span class="line">sed -i <span class="string">'s/BIG-REQUESTS/_IG-REQUESTS/'</span> ~/lib/libxcb.so<span class="number">.1</span></span><br><span class="line"><span class="comment"># set the dynamic loader path to put your library first before executing VS Code</span></span><br><span class="line">LD_LIBRARY_PATH=$HOME/lib code <span class="comment"># add it to .bashrc</span></span><br></pre></td></tr></table></figure>
-<p>如果还不行的话，可以仔细阅读Github上相关 issue:</p>
-<p>-<a href="https://github.com/Microsoft/vscode/issues/3451" target="_blank" rel="noopener">VS Code not working on Ubuntu when connected using XRDP. #3451</a></p>
+                <p>用于给使用 ubuntu 操作系统的服务器或者工作站配置虚拟桌面和图行界面远程连接，用户端windows 或者 ubuntu 使用自带的远程连接软件就可以连接了。<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">############################################################################</span></span><br><span class="line"><span class="comment">#选择阿里云源</span></span><br><span class="line">sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak <span class="comment">#备份</span></span><br><span class="line">sudo gedit /etc/apt/sources.list <span class="comment">#修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#文件内容</span></span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line">deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line"></span><br><span class="line">sudo apt-get update <span class="comment">#更新列表</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#####################################################################</span></span><br><span class="line"><span class="comment">#更改IP,以115服务器为例</span></span><br><span class="line">ifconfig -a <span class="comment">#查看IP</span></span><br><span class="line"><span class="comment">#选择IPV4设置，手动</span></span><br><span class="line">Address:<span class="number">192.168</span><span class="number">.1</span><span class="number">.115</span> <span class="comment">#先设置成当前IP检查连接是否可行，然后设置目标IP</span></span><br><span class="line">Netmask:<span class="number">255.255</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">Gateway:<span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span></span><br><span class="line">DNS:<span class="number">202.120</span><span class="number">.2</span><span class="number">.101</span>,<span class="number">202.120</span><span class="number">.2</span><span class="number">.100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入路由控制,192.168.1.1-&gt;应用管理-&gt;虚拟服务器-&gt;添加</span></span><br><span class="line">外部端口:<span class="number">3115</span></span><br><span class="line">内部端口:<span class="number">3389</span></span><br><span class="line">IP:<span class="number">192.168</span><span class="number">.1</span><span class="number">.115</span></span><br><span class="line">协议类型:ALL</span><br><span class="line"></span><br><span class="line">sudo apt-get update <span class="comment">#检查连接</span></span><br><span class="line"></span><br><span class="line"><span class="comment">###############################################################################</span></span><br><span class="line"><span class="comment">#远程桌面连接</span></span><br><span class="line">sudo apt-get -y install xrdp vnc4server xubuntu-desktop <span class="comment">#安装xrdp,vnc4server,xfc4</span></span><br><span class="line"><span class="comment">#配置xfce4会话文件,每个用户都需要,假设用户名为min</span></span><br><span class="line">echo <span class="string">"xfce4-session"</span> &gt;/home/min/.xsession</span><br><span class="line">cat /home/min/.xsession <span class="comment">#检查是否成功</span></span><br><span class="line">sudo gedit /etc/xrdp/xrdp.ini <span class="comment">#修改端口设置,可用于恢复会话</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#文件末尾添加</span></span><br><span class="line">[xrdp8]</span><br><span class="line">name=LastSession</span><br><span class="line">lib=libvnc.so</span><br><span class="line">username=ask</span><br><span class="line">password=ask</span><br><span class="line">ip=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">port=ask</span><br><span class="line"></span><br><span class="line"><span class="comment">###################################################################################</span></span><br><span class="line"><span class="comment">#链接以具体地址为准</span></span><br><span class="line"><span class="comment">#安装CUDA,8.0,x86_64,deb(local)</span></span><br><span class="line">wget https://developer.nvidia.com/compute/cuda/<span class="number">8.0</span>/Prod2/local_installers/cuda-repo-ubuntu1404<span class="number">-8</span><span class="number">-0</span>-local-ga2_8<span class="number">.0</span><span class="number">.61</span><span class="number">-1</span>_amd64-deb <span class="comment">#下载</span></span><br><span class="line">sudo dpkg -i cuda-repo-ubuntu1404<span class="number">-8</span><span class="number">-0</span>-local-ga2_8<span class="number">.0</span><span class="number">.61</span><span class="number">-1</span>_amd64-deb <span class="comment">#导入</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get -y install cuda <span class="comment">#安装</span></span><br><span class="line">nvidia-smi <span class="comment">#检查</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装CUDNN6,以deb包为例,其余可以参考cudnn安装指导文档</span></span><br><span class="line"><span class="comment">#下载运行包,开发包,文档包三个deb文件</span></span><br><span class="line">sudo dpkg -i libcudnn6_6<span class="number">.0</span><span class="number">.21</span><span class="number">-1</span>+cuda8<span class="number">.0</span>amd64.deb</span><br><span class="line">sudo dpkg -i libcudnn6-dev_6<span class="number">.0</span><span class="number">.21</span><span class="number">-1</span>+cuda8<span class="number">.0</span>amd64.deb</span><br><span class="line">sudo dpkg -i libcudnn6-doc_6<span class="number">.0</span><span class="number">.21</span><span class="number">-1</span>+cuda8<span class="number">.0</span>amd64.deb</span><br><span class="line"></span><br><span class="line"><span class="comment">#################################################################################</span></span><br><span class="line"><span class="comment">#安装PIP</span></span><br><span class="line">sudo apt-get -y install python-pip <span class="comment">#安装PIP</span></span><br><span class="line"><span class="comment">#更改本地环境变量</span></span><br><span class="line">gedit ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment">#文件添加内容</span></span><br><span class="line">export PYTHONPATH=/usr/local/lib</span><br><span class="line">export PATH=$PATH;$PYTHONPATH</span><br><span class="line"></span><br><span class="line">source ~/.bashrc <span class="comment">#使环境变量生效</span></span><br><span class="line">pip install pip --upgrade</span><br><span class="line">pip install numpy pandas scipy <span class="comment">#常用库</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#################################################################################</span></span><br><span class="line"><span class="comment">#安装tensorflow-gpu1.4版本,1.5之后需要cuda9</span></span><br><span class="line">sudo pip install tensorflow-gpu==<span class="number">1.4</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#可能的问题:"cannot uninstall 'six'",类似情况是因为ubuntu默认python及自带的库位于/usr/lib中,而我们使用的则位于/usr/local/lib中,因此出现冲突,使用apt卸载即可</span></span><br><span class="line">sudo apt-get remove python-six</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加用户</span></span><br><span class="line">sudo adduser $USERNAME$</span><br><span class="line">passwd $USERNAME$ <span class="comment">#更改密码</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#####################################################################################</span></span><br><span class="line"><span class="comment">#升级Python3.6</span></span><br></pre></td></tr></table></figure></p>
+<p>注意，每个账号第一次登录时，登录选项为 LastSession，端口填-1，登录时，系统会自动分配一个端口，比如5910，登录界面的左上角会显示，进入桌面后命令行输入who 后也能查找。退出时，如果不注销桌面，这个端口会一直保留，下次登录时输入这个端口号就能回到原来的桌面继续工作。如果桌面未注销，再次登录又使用-1，那么你将会被分配一个新端口，登录到一个全新的桌面。</p>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/fwqpzjc/" data-toggle="tooltip" data-placement="top"
-                           title="服务器使用Xrdp远程桌面连接配置教程">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/note20181230/" data-toggle="tooltip" data-placement="top"
-                           title="百年孤独">Next Post &rarr;</a>
+                        <a href="/sjcksl/" data-toggle="tooltip" data-placement="top"
+                           title="实践踩坑实录-1">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -249,7 +227,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#深度学习平台的配置"><span class="toc-text">深度学习平台的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系统"><span class="toc-text">操作系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#软件配置"><span class="toc-text">软件配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编译器"><span class="toc-text">编译器</span></a></li></ol></li></ol>
+                    
                 </div>
             </div>
         </div>
@@ -271,11 +249,8 @@
                     </h5>
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#Reinforcement Learning"
-                           title="Reinforcement Learning">Reinforcement Learning</a>
-                        
-                        <a class="tag" href="/tags/#踩坑系列"
-                           title="踩坑系列">踩坑系列</a>
+                        <a class="tag" href="/tags/#踩坑实录"
+                           title="踩坑实录">踩坑实录</a>
                         
                     </div>
                 </section>
